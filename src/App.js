@@ -66,7 +66,11 @@ class App extends Component {
         return (
             <div className="app">
                 <form>
-                    <input type="text" onChange={this.onSearchChange}/>
+                    <input
+                        type="text"
+                        onChange={this.onSearchChange}
+                        value={searchTerm}
+                    />
                 </form>
 
                 {/*这里箭头函数使用了简洁体*/}
