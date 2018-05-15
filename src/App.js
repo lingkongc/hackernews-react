@@ -61,6 +61,8 @@ class App extends Component {
 
 
     render() {
+        // 解构 相当于searchTerm=this.state.serchTerm... 对于数组变量对象都适用
+        const {searchTerm, list} = this.state;
         return (
             <div className="app">
                 <form>
@@ -68,7 +70,7 @@ class App extends Component {
                 </form>
 
                 {/*这里箭头函数使用了简洁体*/}
-                {this.state.list.filter(isSearched(this.state.searchTerm)).map(item =>
+                {list.filter(isSearched(searchTerm)).map(item =>
                     <div key={item.objectID}>
                         <span>
                             <a href={item.url}>{item.title}</a>
