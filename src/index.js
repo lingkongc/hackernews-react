@@ -6,3 +6,8 @@ import registerServiceWorker from './registerServiceWorker';
 
 ReactDOM.render(<App />, document.getElementById('root'));
 registerServiceWorker();
+
+// 模块热替换
+if(module.hot){
+    module.hot.accept();
+}
