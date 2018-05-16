@@ -1,3 +1,6 @@
+/*
+  index里设置基本样式
+*/
 @font-face {
     font-family: Roboto;
     src: url("./font/Roboto-Regular.ttf");
@@ -15,8 +18,48 @@
     font-weight: bold;
 }
 
-body {
-    margin: 0;
+
+body{
+    color: #222222;
+    background: #f4f4f4;
+    font: 400 14px Roboto,Arial,sans-serif;
+}
+
+a{
+    color: #222222;
+}
+
+a:hover{
+    text-decoration: underline;
+}
+
+ul,li{
+    list-style: none;
     padding: 0;
-    font-family: Roboto, sans-serif;
+    margin: 0;
+}
+
+input{
+    padding: 10px;
+    border-radius: 5px;
+    outline: none;
+    margin-left: 10px;
+    border: 1px solid #dddddd;
+}
+
+button{
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #dddddd;
+    background: transparent;
+    color: #808080;
+    cursor: pointer;
+}
+
+button:hover{
+    color: #222222;
+}
+
+*:focus{
+    outline: none;
 }

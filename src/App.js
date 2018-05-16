@@ -62,13 +62,13 @@ class App extends Component {
         // 解构 相当于searchTerm=this.state.serchTerm... 对于数组变量对象都适用
         const {searchTerm, list} = this.state;
         return (
-            <div className="App">
-
-                <Search
-                    value={searchTerm}
-                    onChange={this.onSearchChange}
-                >Search</Search>
-
+            <div className="page">
+                <div className="interactions">
+                    <Search
+                        value={searchTerm}
+                        onChange={this.onSearchChange}
+                    >Search</Search>
+                </div>
                 <Table
                     list={list}
                     pattern={searchTerm}
