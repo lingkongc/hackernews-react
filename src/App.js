@@ -12,7 +12,6 @@ const PATH_SEARCH = '/search';
 const PARAM_SEARCH = 'query=';
 
 
-
 class App extends Component {
     constructor(props) {
         super(props);
@@ -57,7 +56,7 @@ class App extends Component {
         //     result: Object.assign({}, this.state.result, {hits: updatedHits}),
         // });
         this.setState({
-            result: {...this.state.result,hits: updatedHits}
+            result: {...this.state.result, hits: updatedHits}
         })
     }
 
@@ -73,11 +72,6 @@ class App extends Component {
     render() {
         // 解构 相当于searchTerm=this.state.serchTerm... 对于数组变量对象都适用
         const {searchTerm, result} = this.state;
-
-        if (!result) {
-            return null;
-        }
-
         return (
             <div className="page">
                 <div className="interactions">
@@ -86,11 +80,15 @@ class App extends Component {
                         onChange={this.onSearchChange}
                     >Search</Search>
                 </div>
-                <Table
-                    list={result.hits}
-                    pattern={searchTerm}
-                    onDismiss={this.onDismiss}
-                />
+                {
+                    result &&
+                    <Table
+                        list={result.hits}
+                        pattern={searchTerm}
+                        onDismiss={this.onDismiss}
+                    />
+                }
+
 
             </div>
         );
