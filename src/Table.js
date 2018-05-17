@@ -3,8 +3,8 @@ import Button from './Button';
 
 
 // 高阶函数 传递给过滤器一个函数，该函数需要返回一个boolean值
-const isSearched = searchTerm => item =>
-    item.title.toLowerCase().includes(searchTerm.toLowerCase());
+// const isSearched = searchTerm => item =>
+//     item.title.toLowerCase().includes(searchTerm.toLowerCase());
 
 const largeColumn={
     width: '40%',
@@ -18,7 +18,7 @@ const smallColumn={
     width: '10%',
 }
 
-const Table = ({list, pattern, onDismiss}) =>
+const Table = ({list,onDismiss}) =>
     <div className="table">
         {/*这里箭头函数使用了简洁体*/}
         <div className="table-header">
@@ -28,7 +28,7 @@ const Table = ({list, pattern, onDismiss}) =>
             <span style={smallColumn}>comments</span>
             <span style={smallColumn}>delete</span>
         </div>
-        {list.filter(isSearched(pattern)).map(item =>
+        {list.map(item =>
             <div key={item.objectID} className="table-row">
                 <span style={largeColumn}>
                     <a href={item.url}>{item.title}</a>

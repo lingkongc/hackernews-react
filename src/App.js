@@ -27,6 +27,7 @@ class App extends Component {
         // 绑定到类方法
         // 使用bind()是为了将this绑定到类实例，，类方法不会自动绑定this到实例上。会无法调用state的。
         this.onDismiss = this.onDismiss.bind(this);
+        this.onSearchSubmit=this.onSearchSubmit.bind(this);
         this.onSearchChange = this.onSearchChange.bind(this);
     }
 
@@ -68,6 +69,12 @@ class App extends Component {
         })
     }
 
+    onSearchSubmit(event){
+        const {searchTerm}=this.state;
+        this.fetchSearchTopStories(searchTerm);
+        event.preventDefault();
+    }
+
 
     render() {
         // 解构 相当于searchTerm=this.state.serchTerm... 对于数组变量对象都适用
@@ -78,13 +85,14 @@ class App extends Component {
                     <Search
                         value={searchTerm}
                         onChange={this.onSearchChange}
+                        onSubmit={this.onSearchSubmit}
                     >Search</Search>
                 </div>
                 {
                     result &&
                     <Table
                         list={result.hits}
-                        pattern={searchTerm}
+                        // pattern={searchTerm}
                         onDismiss={this.onDismiss}
                     />
                 }
