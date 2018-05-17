@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import Button from './Button'
+import Button from './Button';
 
 
 // 高阶函数 传递给过滤器一个函数，该函数需要返回一个boolean值
@@ -21,6 +21,13 @@ const smallColumn={
 const Table = ({list, pattern, onDismiss}) =>
     <div className="table">
         {/*这里箭头函数使用了简洁体*/}
+        <div className="table-header">
+            <span style={largeColumn}>title</span>
+            <span style={midColumn}>author</span>
+            <span style={smallColumn}>author</span>
+            <span style={smallColumn}>comments</span>
+            <span style={smallColumn}>delete</span>
+        </div>
         {list.filter(isSearched(pattern)).map(item =>
             <div key={item.objectID} className="table-row">
                 <span style={largeColumn}>
