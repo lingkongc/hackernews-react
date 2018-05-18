@@ -3,13 +3,19 @@ import './App.css';
 
 import Table from './Table';
 import Search from './Search';
+import Button from './Button';
 
 
 const DEFAULT_QUERY = 'redux';
+const DEFAULT_HPP = '50';
 
 const PATH_BASE = 'https://hn.algolia.com/api/v1';
 const PATH_SEARCH = '/search';
 const PARAM_SEARCH = 'query=';
+const PARAM_PAGE = 'page=';
+const PARAM_HPP = 'hitsPerPage=';
+
+// const url = `${PATH_BASE}${PATH_SEARCH}?${PARAM_SEARCH}${DEFAULT_QUERY}&${PARAM_PAGE}`
 
 
 class App extends Component {
@@ -27,16 +33,30 @@ class App extends Component {
         // 绑定到类方法
         // 使用bind()是为了将this绑定到类实例，，类方法不会自动绑定this到实例上。会无法调用state的。
         this.onDismiss = this.onDismiss.bind(this);
-        this.onSearchSubmit=this.onSearchSubmit.bind(this);
+        this.onSearchSubmit = this.onSearchSubmit.bind(this);
         this.onSearchChange = this.onSearchChange.bind(this);
     }
 
+    // 设置result
     setSearchTopStories(result) {
-        this.setState({result});
+        const {hits, page} = result;
+
+        const oldHits = page !== 0
+            ? this.state.result.hits
+            : [];
+
+        const updatedHits = [
+            ...oldHits,
+            ...hits
+        ];
+
+        this.setState({
+            result: {hits: updatedHits, page}
+        });
     }
 
-    fetchSearchTopStories(searchTerm) {
-        fetch(`${PATH_BASE}${PATH_SEARCH}?${PARAM_SEARCH}${searchTerm}`)
+    fetchSearchTopStories(searchTerm, page = 0) {
+        fetch(`${PATH_BASE}${PATH_SEARCH}?${PARAM_SEARCH}${searchTerm}&${PARAM_PAGE}${page}&${PARAM_HPP}${DEFAULT_HPP}`)
             .then(response => response.json())
             .then(result => this.setSearchTopStories(result))
             .catch(e => e)
@@ -69,8 +89,8 @@ class App extends Component {
         })
     }
 
-    onSearchSubmit(event){
-        const {searchTerm}=this.state;
+    onSearchSubmit(event) {
+        const {searchTerm} = this.state;
         this.fetchSearchTopStories(searchTerm);
         event.preventDefault();
     }
@@ -79,6 +99,7 @@ class App extends Component {
     render() {
         // 解构 相当于searchTerm=this.state.serchTerm... 对于数组变量对象都适用
         const {searchTerm, result} = this.state;
+        const page = (result && result.page) || 0;
         return (
             <div className="page">
                 <div className="interactions">
@@ -88,6 +109,7 @@ class App extends Component {
                         onSubmit={this.onSearchSubmit}
                     >Search</Search>
                 </div>
+
                 {
                     result &&
                     <Table
@@ -97,7 +119,11 @@ class App extends Component {
                     />
                 }
 
-
+                <div className="interactions">
+                    <Button onClick={() => this.fetchSearchTopStories(searchTerm, page + 1)}>
+                        More
+                    </Button>
+                </div>
             </div>
         );
     }

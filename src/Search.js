@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React from 'react';
 
 // 函数式 无状态组件
 // 没有生命周期方法

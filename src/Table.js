@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React from 'react';
 import Button from './Button';
 
 
@@ -24,7 +24,7 @@ const Table = ({list,onDismiss}) =>
         <div className="table-header">
             <span style={largeColumn}>title</span>
             <span style={midColumn}>author</span>
-            <span style={smallColumn}>author</span>
+            <span style={smallColumn}>Point</span>
             <span style={smallColumn}>comments</span>
             <span style={smallColumn}>delete</span>
         </div>
