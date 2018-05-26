@@ -24,10 +24,12 @@ class App extends Component {
 
         this.state = {
             // 属性名与变量名一致的时候可以简写
-            result: null,
+            results: null,
+            searchKey: '',
             searchTerm: DEFAULT_QUERY,
         };
 
+        this.needsToSearchTopStories = this.needsToSearchTopStories.bind(this);
         this.setSearchTopStories = this.setSearchTopStories.bind(this);
         this.fetchSearchTopStories = this.fetchSearchTopStories.bind(this);
         // 绑定到类方法
@@ -37,21 +39,33 @@ class App extends Component {
         this.onSearchChange = this.onSearchChange.bind(this);
     }
 
-    // 设置result
-    setSearchTopStories(result) {
-        const {hits, page} = result;
+    // 如果存在缓存的serachTerm 则返沪false
+    needsToSearchTopStories(searchTerm) {
+        return !this.state.results[searchTerm];
+    }
 
-        const oldHits = page !== 0
-            ? this.state.result.hits
+    // 发送请求后设置result
+    setSearchTopStories(result) {
+        // result是返回的数据
+        const {hits, page} = result;
+        const {searchKey, results} = this.state;
+
+        const oldHits = results && results[searchKey]
+            ? results[searchKey].hits
             : [];
 
+        // 将过去的项目和新的项目合并到新的数组
         const updatedHits = [
             ...oldHits,
             ...hits
         ];
 
+        // 将新的搜索合并到results，如果存在该对象，则覆盖
         this.setState({
-            result: {hits: updatedHits, page}
+            results: {
+                ...results,
+                [searchKey]: {hits: updatedHits, page}
+            }
         });
     }
 
@@ -64,20 +78,27 @@ class App extends Component {
 
     componentDidMount() {
         const {searchTerm} = this.state;
+        this.setState({searchKey: searchTerm});
         this.fetchSearchTopStories(searchTerm);
     }
 
     // 方法初始化简写形式
     onDismiss(id) {
+        const {searchKey, results} = this.state;
+        const {hits, page} = results[searchKey];
+
         // 结果为false
         const isNotId = item => item.objectID !== id;
         // filter函数遍历数字，传入函数，如果判断是true则保留, 最后返回结果数组，并不会改变原数组
-        const updatedHits = this.state.result.hits.filter(isNotId);
+        const updatedHits = hits.filter(isNotId);
         // this.setState = ({
         //     result: Object.assign({}, this.state.result, {hits: updatedHits}),
         // });
         this.setState({
-            result: {...this.state.result, hits: updatedHits}
+            results: {
+                ...results,
+                [searchKey]: {hits: updatedHits, page}
+            }
         })
     }
 
@@ -91,15 +112,36 @@ class App extends Component {
 
     onSearchSubmit(event) {
         const {searchTerm} = this.state;
-        this.fetchSearchTopStories(searchTerm);
+        this.setState({searchKey: searchTerm});
+        // 重新设置state触发渲染 如果不存在searchTerm则重新发送请求
+        // 如果不存在则会给list渲染一个空数组，发送请求后给数组添加内容
+        if (this.needsToSearchTopStories(searchTerm)) {
+            this.fetchSearchTopStories(searchTerm);
+        }
         event.preventDefault();
     }
 
 
     render() {
         // 解构 相当于searchTerm=this.state.serchTerm... 对于数组变量对象都适用
-        const {searchTerm, result} = this.state;
-        const page = (result && result.page) || 0;
+        const {
+            searchTerm,
+            results,
+            searchKey
+        } = this.state;
+
+        const page = (
+            results &&
+            results[searchKey] &&
+            results[searchKey].page
+        ) || 0;
+
+        const list = (
+            results &&
+            results[searchKey] &&
+            results[searchKey].hits
+        ) || [];
+
         return (
             <div className="page">
                 <div className="interactions">
@@ -110,17 +152,15 @@ class App extends Component {
                     >Search</Search>
                 </div>
 
-                {
-                    result &&
-                    <Table
-                        list={result.hits}
-                        // pattern={searchTerm}
-                        onDismiss={this.onDismiss}
-                    />
-                }
+
+                <Table
+                    list={list}
+                    // pattern={searchTerm}
+                    onDismiss={this.onDismiss}
+                />
 
                 <div className="interactions">
-                    <Button onClick={() => this.fetchSearchTopStories(searchTerm, page + 1)}>
+                    <Button onClick={() => this.fetchSearchTopStories(searchKey, page + 1)}>
                         More
                     </Button>
                 </div>
