@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 // 函数式 无状态组件
 // 没有生命周期方法
@@ -23,3 +24,10 @@ const Search = ({value, onChange, children, onSubmit}) =>
 
 
 export default Search;
+
+Search.prototype={
+    value: PropTypes.string.isRequired,
+    onChange: PropTypes.func.isRequired,
+    children: PropTypes.node,
+    onSubmit: PropTypes.func.isRequired,
+}
