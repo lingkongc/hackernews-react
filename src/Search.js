@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
 // 函数式 无状态组件
@@ -6,26 +6,43 @@ import PropTypes from 'prop-types';
 // 传入props 可以直接在函数签名中防伪props。返回一个jsx
 // 初次之外利用箭头函数还可以进一步简写
 
-const Search = ({value, onChange, children, onSubmit}) =>
-    /*
-    * this.porps.children 可以将元素从上层传递到你的组价中
-    * 为组件相互组合提供了可能性，可以传递其他组件 元素树 元素
-    * */
-    <form onSubmit={onSubmit}>
-        <input
-            type="text"
-            onChange={onChange}
-            value={value}
-        />
-        <button type="submit">
-            {children}
-        </button>
-    </form>
+class Search extends Component {
+    componentDidMount() {
+        if (this.input) {
+            this.input.focus();
+        }
+    }
+
+    render() {
+        const {
+            value,
+            onChange,
+            onSubmit,
+            children
+        } = this.props;
+
+        return (
+            <form onSubmit={onSubmit}>
+                <input
+                    type="text"
+                    value={value}
+                    onChange={onChange}
+                    ref={(node) => {
+                        this.input = node;
+                    }}
+                />
+                <button type="submit">
+                    {children}
+                </button>
+            </form>
+        );
+    }
+}
 
 
 export default Search;
 
-Search.prototype={
+Search.proptype = {
     value: PropTypes.string.isRequired,
     onChange: PropTypes.func.isRequired,
     children: PropTypes.node,
