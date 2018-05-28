@@ -5,6 +5,7 @@ import Table from './Table';
 import Search from './Search';
 import Button from './Button';
 import Loading from './Loading';
+import ButtonWithLoading from './ButtonWithLoading';
 import fetch from 'isomorphic-fetch';
 
 
@@ -127,7 +128,6 @@ class App extends Component {
         event.preventDefault();
     }
 
-
     render() {
         // 解构 相当于searchTerm=this.state.serchTerm... 对于数组变量对象都适用
         const {
@@ -178,15 +178,20 @@ class App extends Component {
                 }
 
                 <div className="interactions">
-                    {
-                        isLoading
-                            ? <Loading/>
-                            : <Button onClick={() => this.fetchSearchTopStories(searchKey, page + 1)}>
-                                More
-                            </Button>
-                    }
-                </div>
+                    {/*{*/}
+                    {/*isLoading*/}
+                    {/*? <Loading/>*/}
+                    {/*: <Button onClick={() => this.fetchSearchTopStories(searchKey, page + 1)}>*/}
+                    {/*More*/}
+                    {/*</Button>*/}
+                    {/*}*/}
 
+                    <ButtonWithLoading
+                        isLoading={isLoading}
+                        onClick={() => this.fetchSearchTopStories(searchKey, page + 1)}>
+                        more
+                    </ButtonWithLoading>
+                </div>
             </div>
         );
     }
