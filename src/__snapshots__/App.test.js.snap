@@ -35,7 +35,13 @@ exports[`App has v valid snapshot 1`] = `
           }
         }
       >
-        title
+        <button
+          className="button-inline"
+          onClick={[Function]}
+          type="button"
+        >
+          Title
+        </button>
       </span>
       <span
         style={
@@ -44,7 +50,13 @@ exports[`App has v valid snapshot 1`] = `
           }
         }
       >
-        author
+        <button
+          className="button-inline"
+          onClick={[Function]}
+          type="button"
+        >
+          Author
+        </button>
       </span>
       <span
         style={
@@ -53,7 +65,13 @@ exports[`App has v valid snapshot 1`] = `
           }
         }
       >
-        Point
+        <button
+          className="button-inline"
+          onClick={[Function]}
+          type="button"
+        >
+          Comments
+        </button>
       </span>
       <span
         style={
@@ -62,7 +80,13 @@ exports[`App has v valid snapshot 1`] = `
           }
         }
       >
-        comments
+        <button
+          className="button-inline"
+          onClick={[Function]}
+          type="button"
+        >
+          Points
+        </button>
       </span>
       <span
         style={
@@ -71,20 +95,16 @@ exports[`App has v valid snapshot 1`] = `
           }
         }
       >
-        delete
+        Archive
       </span>
     </div>
   </div>
   <div
     className="interactions"
   >
-    <button
-      className=""
-      onClick={[Function]}
-      type="button"
-    >
-      More
-    </button>
+    <div>
+      Loading...
+    </div>
   </div>
 </div>
 `;
@@ -130,7 +150,13 @@ exports[`Table has a valid snapshot 1`] = `
         }
       }
     >
-      title
+      <button
+        className="button-inline button-active"
+        onClick={[Function]}
+        type="button"
+      >
+        Title
+      </button>
     </span>
     <span
       style={
@@ -139,7 +165,13 @@ exports[`Table has a valid snapshot 1`] = `
         }
       }
     >
-      author
+      <button
+        className="button-inline"
+        onClick={[Function]}
+        type="button"
+      >
+        Author
+      </button>
     </span>
     <span
       style={
@@ -148,7 +180,13 @@ exports[`Table has a valid snapshot 1`] = `
         }
       }
     >
-      Point
+      <button
+        className="button-inline"
+        onClick={[Function]}
+        type="button"
+      >
+        Comments
+      </button>
     </span>
     <span
       style={
@@ -157,7 +195,13 @@ exports[`Table has a valid snapshot 1`] = `
         }
       }
     >
-      comments
+      <button
+        className="button-inline"
+        onClick={[Function]}
+        type="button"
+      >
+        Points
+      </button>
     </span>
     <span
       style={
@@ -166,7 +210,7 @@ exports[`Table has a valid snapshot 1`] = `
         }
       }
     >
-      delete
+      Archive
     </span>
   </div>
   <div

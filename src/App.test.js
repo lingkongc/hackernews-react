@@ -64,6 +64,8 @@ describe('Table', () => {
             {title: '1', author: '1', run_comments: 1, points: 2, objectID: 'y'},
             {title: '1', author: '2', run_comments: 2, points: 2, objectID: 'z'},
         ],
+        sortKey: 'TITLE',
+        isSockReverse: false,
     };
 
     it('renders without crashing', () => {

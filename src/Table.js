@@ -131,5 +131,5 @@ Table.propTypes = {
             points: PropTypes.number,
         })
     ).isRequired,
-    onDismiss: PropTypes.func.isRequired,
+    onDismiss: PropTypes.func,
 }
