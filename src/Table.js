@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Component} from 'react';
 import Button from './Button';
 import Sort from './Sort';
 import PropTypes from 'prop-types';
@@ -30,93 +30,113 @@ const SORTS = {
     POINTS: list => sortBy(list, 'points').reverse(),
 };
 
-const Table = ({
-                   list,
-                   onDismiss,
-                   sortKey,
-                   onSort,
-                   isSortReverse,
-               }) => {
+class Table extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            sortKey: 'NONE',
+            isSortReverse: false,
+        }
 
-    const sortedList = SORTS[sortKey](list);
-    const reverseSortedList = isSortReverse
-        ? sortedList.reverse()
-        : sortedList;
+        this.onSort = this.onSort.bind(this);
+    }
 
-    return (
-        <div className="table">
-            {/*这里箭头函数使用了简洁体*/}
-            <div className="table-header">
+    onSort(sortKey) {
+        // 如果skrtKey状态和传入的sortKey相同，并且反向状态并未设置为true，则反向状态设置为true
+        const isSortReverse = this.state.sortKey === sortKey && !this.state.isSortReverse;
+        this.setState({sortKey, isSortReverse});
+    }
+
+    render() {
+        const {
+            list,
+            onDismiss,
+        } = this.props;
+
+        const {
+            sortKey,
+            isSortReverse,
+        } = this.state;
+
+        const sortedList = SORTS[sortKey](list);
+        const reverseSortedList = isSortReverse
+            ? sortedList.reverse()
+            : sortedList;
+
+        return (
+            <div className="table">
+                {/*这里箭头函数使用了简洁体*/}
+                <div className="table-header">
 
             <span style={largeColumn}>
                 <Sort sortKey={'TITLE'}
-                      onSort={onSort}
+                      onSort={this.onSort}
                       activeSortKey={sortKey}
                 >
                     Title
                 </Sort>
             </span>
 
-                <span style={midColumn}>
+                    <span style={midColumn}>
                 <Sort sortKey={'AUTHOR'}
-                      onSort={onSort}
+                      onSort={this.onSort}
                       activeSortKey={sortKey}
                 >
                     Author
                 </Sort>
             </span>
 
-                <span style={smallColumn}>
+                    <span style={smallColumn}>
                 <Sort sortKey={"COMMENTS"}
-                      onSort={onSort}
+                      onSort={this.onSort}
                       activeSortKey={sortKey}
                 >
                     Comments
                 </Sort>
             </span>
 
-                <span style={smallColumn}>
+                    <span style={smallColumn}>
                 <Sort sortKey={'POINTS'}
-                      onSort={onSort}
+                      onSort={this.onSort}
                       activeSortKey={sortKey}
                 >
                     Points
                 </Sort>
             </span>
 
-                <span style={smallColumn}>
+                    <span style={smallColumn}>
                 Archive
             </span>
-            </div>
+                </div>
 
-            {reverseSortedList.map(item =>
-                <div key={item.objectID} className="table-row">
+                {reverseSortedList.map(item =>
+                        <div key={item.objectID} className="table-row">
                 <span style={largeColumn}>
                     <a href={item.url}>{item.title}</a>
                 </span>
-                    <span style={midColumn}>{item.author}</span>
-                    <span style={smallColumn}>{item.num_comments}</span>
-                    <span style={smallColumn}>{item.points}</span>
-                    {/*删除按钮
+                            <span style={midColumn}>{item.author}</span>
+                            <span style={smallColumn}>{item.num_comments}</span>
+                            <span style={smallColumn}>{item.points}</span>
+                            {/*删除按钮
                            这里的传入事件的匿名函数被称为高阶函数
                            倘若直接向onclick传入一个函数名，则无法向该函数传入参数
                            如果直接向onclick传入一个带有参数的函数，那么该函数会在页面加载后立即执行
                            因此向onclick传入一个匿名函数
                            这里涉及到性能问题，每次执行render的时候会实例化一个高阶函数
                         */}
-                    <span style={smallColumn}>
+                            <span style={smallColumn}>
                     <Button onClick={() => onDismiss(item.objectID)}
                             className="button-inline"
                     >
                         Dismiss
                     </Button>
                 </span>
-                </div>
-            )}
-        </div>
-    )
+                        </div>
+                )}
+            </div>
+        )
+    }
 }
-
 
 export default Table;
 

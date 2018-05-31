@@ -33,8 +33,6 @@ class App extends Component {
             searchTerm: DEFAULT_QUERY,
             error: null,
             isLoading: false,
-            sortKey: 'NONE',
-            isSortReverse: false,
         };
 
         this.needsToSearchTopStories = this.needsToSearchTopStories.bind(this);
@@ -45,14 +43,9 @@ class App extends Component {
         this.onDismiss = this.onDismiss.bind(this);
         this.onSearchSubmit = this.onSearchSubmit.bind(this);
         this.onSearchChange = this.onSearchChange.bind(this);
-        this.onSort = this.onSort.bind(this);
     }
 
-    onSort(sortKey) {
-        // 如果skrtKey状态和传入的sortKey相同，并且反向状态并未设置为true，则反向状态设置为true
-        const isSortReverse = this.state.sortKey === sortKey && !this.state.isSortReverse;
-        this.setState({sortKey, isSortReverse});
-    }
+
 
     // 如果存在缓存的serachTerm 则返沪false
     needsToSearchTopStories(searchTerm) {
@@ -146,8 +139,6 @@ class App extends Component {
             searchKey,
             error,
             isLoading,
-            sortKey,
-            isSortReverse,
         } = this.state;
 
         const page = (
@@ -185,9 +176,6 @@ class App extends Component {
                         : <Table
                             list={list}
                             // pattern={searchTerm}
-                            sortKey={sortKey}
-                            onSort={this.onSort}
-                            isSortReverse={isSortReverse}
                             onDismiss={this.onDismiss}
                         />
                 }
