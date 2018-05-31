@@ -22,6 +22,31 @@ const PARAM_HPP = 'hitsPerPage=';
 // const url = `${PATH_BASE}${PATH_SEARCH}?${PARAM_SEARCH}${DEFAULT_QUERY}&${PARAM_PAGE}`
 
 
+// 这是一个高阶组件
+// setState() 可以接收一个函数，这个函数接受两个参数，第一个参数表示上一个状态值（prevState），第二参数表示当前的 props
+const updateSearchTopStoriesState = (hits, page) => (prevState) => {
+    const {searchKey, results} = prevState;
+
+    const oldHits = results && results[searchKey]
+        ? results[searchKey].hits
+        : [];
+
+    // 将过去的项目和新的项目合并到新的数组
+    const updatedHits = [
+        ...oldHits,
+        ...hits
+    ];
+
+    return {
+        // 将新的搜索合并到results，如果存在该对象，则覆盖
+        results: {
+            ...results,
+            [searchKey]: {hits: updatedHits, page}
+        },
+        isLoading: false
+    }
+}
+
 class App extends Component {
     constructor(props) {
         super(props);
@@ -46,7 +71,6 @@ class App extends Component {
     }
 
 
-
     // 如果存在缓存的serachTerm 则返沪false
     needsToSearchTopStories(searchTerm) {
         return !this.state.results[searchTerm];
@@ -56,26 +80,8 @@ class App extends Component {
     setSearchTopStories(result) {
         // result是返回的数据
         const {hits, page} = result;
-        const {searchKey, results} = this.state;
 
-        const oldHits = results && results[searchKey]
-            ? results[searchKey].hits
-            : [];
-
-        // 将过去的项目和新的项目合并到新的数组
-        const updatedHits = [
-            ...oldHits,
-            ...hits
-        ];
-
-        // 将新的搜索合并到results，如果存在该对象，则覆盖
-        this.setState({
-            results: {
-                ...results,
-                [searchKey]: {hits: updatedHits, page}
-            },
-            isLoading: false
-        });
+        this.setState(updateSearchTopStoriesState(hits, page));
     }
 
     fetchSearchTopStories(searchTerm, page = 0) {
