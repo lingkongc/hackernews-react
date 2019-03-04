@@ -7,7 +7,7 @@ import Adapter from 'enzyme-adapter-react-16';
 import App from './App';
 import Search from './Search';
 import Button from './Button';
-import Table from './Table';
+import Index from './Table/index';
 
 Enzyme.configure({adapter: new Adapter()});
 
@@ -58,7 +58,7 @@ describe('Button', () => {
     });
 });
 
-describe('Table', () => {
+describe('Index', () => {
     const props = {
         list: [
             {title: '1', author: '1', run_comments: 1, points: 2, objectID: 'y'},
@@ -70,12 +70,12 @@ describe('Table', () => {
 
     it('renders without crashing', () => {
         const div = document.createElement('div');
-        ReactDOM.render(<Table {...props} />, div);
+        ReactDOM.render(<Index {...props} />, div);
     });
 
     test('has a valid snapshot', () => {
         const component = renderer.create(
-            <Table {...props} />
+            <Index {...props} />
         );
         let tree = component.toJSON();
         expect(tree).toMatchSnapshot();
@@ -83,7 +83,7 @@ describe('Table', () => {
 
     it('shows two items in list', () => {
         const element = shallow(
-            <Table {...props}/>
+            <Index {...props}/>
         );
         expect(element.find('.table-row').length).toBe(2);
     });

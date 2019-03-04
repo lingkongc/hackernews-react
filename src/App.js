@@ -3,12 +3,9 @@ import fetch from 'isomorphic-fetch';
 
 import './App.css';
 
-import Table from './Table';
+import Table from './Table/';
 import Search from './Search';
-// import Button from './Button';
-// import Loading from './Loading';
 import ButtonWithLoading from './ButtonWithLoading';
-
 
 const DEFAULT_QUERY = 'redux';
 const DEFAULT_HPP = '50';
