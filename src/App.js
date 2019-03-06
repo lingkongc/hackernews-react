@@ -4,18 +4,19 @@ import axios from 'axios';
 
 import './App.css';
 
-import Table from './component/Table/';
-import Search from './component/Search/';
-import ButtonWithLoading from './component/Button/ButtonWithLoading';
+import Table from './components/Table';
+import Search from './components/Search/';
+import ButtonWithLoading from './components/Button/ButtonWithLoading';
+import {
+    PATH_BASE,
+    PATH_SEARCH,
+    PARAM_SEARCH,
+    PARAM_PAGE,
+    PARAM_HPP
+} from "./constants/API";
 
 const DEFAULT_QUERY = 'redux';
 const DEFAULT_HPP = '50';
-
-const PATH_BASE = 'https://hn.algolia.com/api/v1';
-const PATH_SEARCH = '/search';
-const PARAM_SEARCH = 'query=';
-const PARAM_PAGE = 'page=';
-const PARAM_HPP = 'hitsPerPage=';
 
 
 // const url = `${PATH_BASE}${PATH_SEARCH}?${PARAM_SEARCH}${DEFAULT_QUERY}&${PARAM_PAGE}`
@@ -23,11 +24,12 @@ const PARAM_HPP = 'hitsPerPage=';
 
 // 这是一个高阶组件
 // setState() 可以接收一个函数，这个函数接受两个参数，第一个参数表示上一个状态值（prevState），第二参数表示当前的 props
+// 这个函数返回一个新函数，作为setState的参数传入
 const updateSearchTopStoriesState = (hits, page) => (prevState) => {
     const {searchKey, results} = prevState;
 
     const oldHits = results && results[searchKey]
-        ? results[searchKey].hits
+        ? results[searchKey].hits  // 存在的话
         : [];
 
     // 将过去的项目和新的项目合并到新的数组
@@ -79,6 +81,8 @@ class App extends Component {
     setSearchTopStories(result) {
         // result是返回的数据
         const {hits, page} = result;
+        // hits=result.hits;
+        // page=result.page;
 
         this.setState(updateSearchTopStoriesState(hits, page));
     }
@@ -161,9 +165,9 @@ class App extends Component {
         ) || [];
 
         // 当发生错误的时候 使用条件渲染输出提示信息
-        // if(error){
-        //     return <p>Something went wrong.</p>
-        // }
+        if (error) {
+            return <p>Something went wrong.</p>
+        }
 
         return (
             <div className="page">

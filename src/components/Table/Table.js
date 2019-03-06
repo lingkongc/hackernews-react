@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
-import Button from '../Button/Button';
-import Sort from '../Sort';
+import Button from '../Button';
+import {SortButton} from '../Button/';
 import PropTypes from 'prop-types';
 import {sortBy} from "lodash";
 
-import './style.css';
+import './index.css';
 
 // 高阶函数 传递给过滤器一个函数，该函数需要返回一个boolean值
 // const isSearched = searchTerm => item =>
@@ -15,8 +15,8 @@ const SORTS = {
     NONE: list => list,
     TITLE: list => sortBy(list, 'tilte'),
     AUTHOR: list => sortBy(list, 'author'),
-    COMMENTS: list => sortBy(list, 'num_comments').reverse(),
-    POINTS: list => sortBy(list, 'points').reverse(),
+    COMMENTS: list => sortBy(list, 'num_comments').reverse(),  // 字母顺序 从小到大
+    POINTS: list => sortBy(list, 'points').reverse(), // 字母顺序 从小到大
 };
 
 class Table extends Component {
@@ -38,13 +38,13 @@ class Table extends Component {
 
     render() {
         const {
-            list,
-            onDismiss,
+            list,  // list数据
+            onDismiss, // 事件处理函数
         } = this.props;
 
         const {
-            sortKey,
-            isSortReverse,
+            sortKey,    // 关键字
+            isSortReverse,  // 判断是否反转
         } = this.state;
 
         const sortedList = SORTS[sortKey](list);
@@ -57,36 +57,36 @@ class Table extends Component {
                 {/*这里箭头函数使用了简洁体*/}
                 <div className="table-header">
                     <span className="largeColumn">
-                        <Sort sortKey={'TITLE'}
-                              onSort={this.onSort}
-                              activeSortKey={sortKey}
+                        <SortButton sortKey={'TITLE'}
+                                    onSort={this.onSort}
+                                    activeSortKey={sortKey}
                         >
                             Title
-                        </Sort>
+                        </SortButton>
                     </span>
                     <span className="midColumn">
-                        <Sort sortKey={'AUTHOR'}
-                              onSort={this.onSort}
-                              activeSortKey={sortKey}
+                        <SortButton sortKey={'AUTHOR'}
+                                    onSort={this.onSort}
+                                    activeSortKey={sortKey}
                         >
                             Author
-                        </Sort>
+                        </SortButton>
                     </span>
                     <span className="smallColumn">
-                        <Sort sortKey={"COMMENTS"}
-                              onSort={this.onSort}
-                              activeSortKey={sortKey}
+                        <SortButton sortKey={"COMMENTS"}
+                                    onSort={this.onSort}
+                                    activeSortKey={sortKey}
                         >
                             Comments
-                        </Sort>
+                        </SortButton>
                     </span>
                     <span className="smallColumn">
-                        <Sort sortKey={'POINTS'}
-                              onSort={this.onSort}
-                              activeSortKey={sortKey}
+                        <SortButton sortKey={'POINTS'}
+                                    onSort={this.onSort}
+                                    activeSortKey={sortKey}
                         >
                             Points
-                        </Sort>
+                        </SortButton>
                     </span>
                     <span className="smallColumn">
                         Archive

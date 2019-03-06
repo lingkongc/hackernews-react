@@ -1,5 +1,5 @@
 import React from 'react';
-import Loading from '../Loading';
+import Loading from '../Loading/';
 import Button from './Button';
 
 // Higher Order Components
@@ -13,7 +13,7 @@ import Button from './Button';
 
 // 解构赋值 ..rest
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment
-
+// ...rest用于获取函数多余参数
 const withLoading = (Component) => ({isLoading, ...rest}) =>
     isLoading
         ? <Loading/>

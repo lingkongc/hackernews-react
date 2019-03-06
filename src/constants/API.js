@@ -1,17 +1,13 @@
-const DEFAULT_QUERY = 'react';  // 默认搜索
-const DEFAULT_HPP = '50';   // 加载条数
+export const PATH_BASE = 'https://hn.algolia.com/api/v1';
+export const PATH_SEARCH = '/search';
+export const PATH_SEARCHBYDATE = '/search_by_date';
+export const PARAM_SEARCH = 'query=';
+export const PARAM_PAGE = 'page=';
+export const PARAM_TAG = 'tag=';   //数据类型
+export const PARAM_MUMERICFILTERS = 'numericFilters='  // 对pont 等数据大小进行过滤
+export const PARAM_HPP = 'hitsPerPage=';    // 每页的数据的数量
 
-const PATH_BASE = 'https://hn.algolia.com/api/v1';
-const PATH_SEARCH = '/search';
-const PATH_SEARCHBYDATE = '/search_by_date';
-const PARAM_SEARCH = 'query=';
-const PARAM_PAGE = 'page=';
-const PARAM_TAG = 'tag=';   //数据类型
-const PARAM_MUMERICFILTERS = 'numericFilters='  // 对pont 等数据大小进行过滤
-const PARAM_HPP = 'hitsPerPage=';    // 每页的数据的数量
-
-const url = `${PATH_BASE}${PATH_SEARCH}?${PARAM_SEARCH}${DEFAULT_QUERY}&${PARAM_PAGE}`;
-
+// const url = `${PATH_BASE}${PATH_SEARCH}?${PARAM_SEARCH}${DEFAULT_QUERY}&${PARAM_PAGE}`;
 
 // Examples
 // All stories matching foo
