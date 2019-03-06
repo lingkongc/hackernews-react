@@ -1,8 +1,8 @@
 import React from 'react';
 import classNames from 'classnames';
-import Button from "./Button/Button";
+import Button from "./Button";
 
-const Sort = ({
+const SortButton = ({
                   sortKey,
                   onSort,
                   children,
@@ -30,4 +30,4 @@ const Sort = ({
     )
 }
 
-export default Sort;
+export default SortButton;

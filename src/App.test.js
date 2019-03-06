@@ -5,9 +5,9 @@ import Enzyme, {shallow} from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 
 import App from './App';
-import Index from './component/Search/index';
-import Button from './component/Button/Button';
-import Index from './component/Table/index';
+import Index from './components/Search/index';
+import Button from './components/Button/Button';
+import Index from './components/Table/Table';
 
 Enzyme.configure({adapter: new Adapter()});
 
