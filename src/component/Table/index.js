@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import Button from '../Button';
+import Button from '../Button/Button';
 import Sort from '../Sort';
 import PropTypes from 'prop-types';
 import {sortBy} from "lodash";
@@ -110,7 +110,7 @@ class Table extends Component {
                         */}
                         <span className="smallColumn">
                             <Button onClick={() => onDismiss(item.objectID)}
-                                    className=" button-inline"
+                                    className="button-inline"
                             >
                                 Dismiss
                             </Button>

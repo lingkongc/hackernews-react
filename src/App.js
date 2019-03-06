@@ -1,11 +1,12 @@
 import React, {Component} from 'react';
-import fetch from 'isomorphic-fetch';
+// import fetch from 'isomorphic-fetch';
+import axios from 'axios';
 
 import './App.css';
 
-import Table from './Table/';
-import Search from './Search';
-import ButtonWithLoading from './ButtonWithLoading';
+import Table from './component/Table/';
+import Search from './component/Search/';
+import ButtonWithLoading from './component/Button/ButtonWithLoading';
 
 const DEFAULT_QUERY = 'redux';
 const DEFAULT_HPP = '50';
@@ -15,6 +16,7 @@ const PATH_SEARCH = '/search';
 const PARAM_SEARCH = 'query=';
 const PARAM_PAGE = 'page=';
 const PARAM_HPP = 'hitsPerPage=';
+
 
 // const url = `${PATH_BASE}${PATH_SEARCH}?${PARAM_SEARCH}${DEFAULT_QUERY}&${PARAM_PAGE}`
 
@@ -34,6 +36,7 @@ const updateSearchTopStoriesState = (hits, page) => (prevState) => {
         ...hits
     ];
 
+    // 返回更新后的state对象
     return {
         // 将新的搜索合并到results，如果存在该对象，则覆盖
         results: {
@@ -49,7 +52,6 @@ class App extends Component {
         super(props);
 
         this.state = {
-            // 属性名与变量名一致的时候可以简写
             results: null,
             searchKey: '',
             searchTerm: DEFAULT_QUERY,
@@ -57,16 +59,16 @@ class App extends Component {
             isLoading: false,
         };
 
-        this.needsToSearchTopStories = this.needsToSearchTopStories.bind(this);
-        this.setSearchTopStories = this.setSearchTopStories.bind(this);
-        this.fetchSearchTopStories = this.fetchSearchTopStories.bind(this);
+        this.needsToSearchTopStories = this.needsToSearchTopStories.bind(this); // 发起重复请求，阻止
+        this.setSearchTopStories = this.setSearchTopStories.bind(this); // 覆盖数据
+        this.fetchSearchTopStories = this.fetchSearchTopStories.bind(this); // 发送请求获取数据
         // 绑定到类方法
         // 使用bind()是为了将this绑定到类实例，，类方法不会自动绑定this到实例上。会无法调用state的。
-        this.onDismiss = this.onDismiss.bind(this);
-        this.onSearchSubmit = this.onSearchSubmit.bind(this);
-        this.onSearchChange = this.onSearchChange.bind(this);
+        // 猜测  这些方法最后都会绑定到实例上，但是却需要从构造函数中访问state，因此需要将他们绑定回构造器
+        this.onDismiss = this.onDismiss.bind(this); // 删除数据
+        this.onSearchSubmit = this.onSearchSubmit.bind(this);   // 提交事件
+        this.onSearchChange = this.onSearchChange.bind(this);   // 监听input
     }
-
 
     // 如果存在缓存的serachTerm 则返沪false
     needsToSearchTopStories(searchTerm) {
@@ -84,12 +86,18 @@ class App extends Component {
     fetchSearchTopStories(searchTerm, page = 0) {
         this.setState({isLoading: true});
 
-        fetch(`${PATH_BASE}${PATH_SEARCH}?${PARAM_SEARCH}${searchTerm}&${PARAM_PAGE}${page}&${PARAM_HPP}${DEFAULT_HPP}`)
-            .then(response => response.json())
+        // fetch(`${PATH_BASE}${PATH_SEARCH}?${PARAM_SEARCH}${searchTerm}&${PARAM_PAGE}${page}&${PARAM_HPP}${DEFAULT_HPP}`)
+        //     .then(response => response.json())
+        //     .then(result => this.setSearchTopStories(result))
+        //     .catch(e => this.setState({error: e}));
+
+        axios.get(`${PATH_BASE}${PATH_SEARCH}?${PARAM_SEARCH}${searchTerm}&${PARAM_PAGE}${page}&${PARAM_HPP}${DEFAULT_HPP}`)
+            .then(response => response.data)
             .then(result => this.setSearchTopStories(result))
             .catch(e => this.setState({error: e}));
     }
 
+    // 组件加载完毕后，初始化searchKey，并发起请求
     componentDidMount() {
         const {searchTerm} = this.state;
         this.setState({searchKey: searchTerm});
@@ -105,9 +113,7 @@ class App extends Component {
         const isNotId = item => item.objectID !== id;
         // filter函数遍历数字，传入函数，如果判断是true则保留, 最后返回结果数组，并不会改变原数组
         const updatedHits = hits.filter(isNotId);
-        // this.setState = ({
-        //     result: Object.assign({}, this.state.result, {hits: updatedHits}),
-        // });
+
         this.setState({
             results: {
                 ...results,
@@ -116,9 +122,7 @@ class App extends Component {
         })
     }
 
-
     onSearchChange(event) {
-        // 这里可以访问到事件对象
         this.setState({
             searchTerm: event.target.value
         })
@@ -136,7 +140,6 @@ class App extends Component {
     }
 
     render() {
-        // 解构 相当于searchTerm=this.state.serchTerm... 对于数组变量对象都适用
         const {
             searchTerm,
             results,
@@ -171,7 +174,6 @@ class App extends Component {
                         onSubmit={this.onSearchSubmit}
                     >Search</Search>
                 </div>
-                {/*条件渲染，请求失败的话*/}
                 {
                     error
                         ? <div className="interactions">
