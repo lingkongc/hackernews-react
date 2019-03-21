@@ -1,6 +1,6 @@
 const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
+// const HtmlWebpackPlugin = require('html-webpack-plugin');
+// const CleanWebpackPlugin = require('clean-webpack-plugin');
 const webpack = require('webpack');
 
 module.exports = {
@@ -10,7 +10,7 @@ module.exports = {
         hot: true
     },
     devtool: "cheap-eval-source-map",
-    entry: './src/index.js',
+    entry: "./src/index.js",
     output: {
         filename: "bundle.js",
         path: path.resolve(__dirname, 'dist')
@@ -20,7 +20,7 @@ module.exports = {
                 test: /\.js$/,
                 exclude: /(node_modules|bower_components)/,
                 use: {
-                    loader: "babnel-loader",
+                    loader: "babel-loader",
                     options: {
                         presets: [
                             ['@babel/preset-env', {
@@ -55,10 +55,10 @@ module.exports = {
         ]
     },
     plugins: [
-        new CleanWebpackPlugin(['dist']),
-        new HtmlWebpackPlugin({
-            title: '热模块替换'
-        }),
-        new webpack.HotModuleReplacementPlugin()
+        // new CleanWebpackPlugin(['dist']),
+        // new HtmlWebpackPlugin({
+            // title: '热模块替换'
+        // }),
+        // new webpack.HotModuleReplacementPlugin()
     ]
 }
