@@ -6,8 +6,8 @@ import Adapter from 'enzyme-adapter-react-16';
 
 import App from './App';
 import Index from './components/Search/index';
-import Button from './components/Button/Button';
-import Index from './components/Table/Table';
+import Button from './pages/Search/components/Button/Button';
+import Index from './pages/Search/components/Table/Table';
 
 Enzyme.configure({adapter: new Adapter()});
 

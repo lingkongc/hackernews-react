@@ -413,3 +413,9 @@ button:hover{
 *:focus{
     outline: none;
 }
+
+/* 布局样式 */
+.wrapper{
+  max-width: 72em;
+  margin: auto;
+}

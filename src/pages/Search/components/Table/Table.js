@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import Button from '../Button';
-import {SortButton} from '../Button/';
+import Button from '../Button/index';
+import {SortButton} from '../Button/index';
 import PropTypes from 'prop-types';
 import {sortBy} from "lodash";
 

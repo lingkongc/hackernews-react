@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-
+import {connect} from 'react-redux';
 // 函数式 无状态组件
 // 没有生命周期方法
 // 传入props 可以直接在函数签名中防伪props。返回一个jsx
@@ -41,8 +41,14 @@ class SearchInput extends Component {
     }
 }
 
-
-export default SearchInput;
+const mapStateToProps = (state) => ({
+    value: state.searchKey
+});
+const mapDispatchToProps = (dispatch) => ({
+    onChange: dispatch(),
+    onSubmit: dispatch(),
+});
+export default connect(mapStateToProps, mapDispatchToProps)(SearchInput);
 
 SearchInput.proptype = {
     value: PropTypes.string.isRequired,

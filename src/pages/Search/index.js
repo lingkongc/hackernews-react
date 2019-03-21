@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
-// import fetch from 'isomorphic-fetch';
 import axios from 'axios';
+import {connect} from 'react-redux';
 
-import './App.css';
+import './index.css';
 
-import Table from '../../components/Table';
-import SearchInput from '../../components/SearchInput/';
-import ButtonWithLoading from '../../components/Button/ButtonWithLoading';
+import Table from './components/Table';
+import SearchInput from './components/SearchInput/';
+import ButtonWithLoading from './components/Button/ButtonWithLoading';
 import {
     PATH_BASE,
     PATH_SEARCH,
@@ -185,7 +185,6 @@ class Search extends Component {
                         </div>
                         : <Table
                             list={list}
-                            // pattern={searchTerm}
                             onDismiss={this.onDismiss}
                         />
                 }
@@ -210,5 +209,8 @@ class Search extends Component {
     }
 }
 
-export default Search;
+const mapStateToProps = (state) => ({});
+const mapDispatchToProps = (dispatch) => ({});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Search);
 
