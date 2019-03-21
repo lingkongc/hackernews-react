@@ -9,10 +9,12 @@ module.exports = {
         contentBase: './dist',
         hot: true
     },
-    devtool: "cheap-eval-source-map",
-    entry: "./src/index.js",
+    devtool: 'cheap-eval-source-map',
+    entry: {
+        main: './src/index.js'
+    },
     output: {
-        filename: "bundle.js",
+        filename: 'bundle.js',
         path: path.resolve(__dirname, 'dist')
     },
     module: {
@@ -20,12 +22,12 @@ module.exports = {
                 test: /\.js$/,
                 exclude: /(node_modules|bower_components)/,
                 use: {
-                    loader: "babel-loader",
+                    loader: 'babel-loader',
                     options: {
                         presets: [
                             ['@babel/preset-env', {
-                                "targets": {
-                                    "browsers": [">1%", "not ie<=8"]
+                                'targets': {
+                                    'browsers': ['>1%', 'not ie<=8']
                                 }
                             }],
                             ['@babel/preset-react']
@@ -59,6 +61,6 @@ module.exports = {
         // new HtmlWebpackPlugin({
             // title: '热模块替换'
         // }),
-        // new webpack.HotModuleReplacementPlugin()
+        new webpack.HotModuleReplacementPlugin()
     ]
 }

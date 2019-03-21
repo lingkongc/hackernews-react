@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 // 传入props 可以直接在函数签名中防伪props。返回一个jsx
 // 初次之外利用箭头函数还可以进一步简写
 
-class Search extends Component {
+class SearchInput extends Component {
     // 声明周期 组件加载完毕后触发 获取焦点
     componentDidMount() {
         // 这里的this.input绑定的应该是input元素
@@ -42,9 +42,9 @@ class Search extends Component {
 }
 
 
-export default Search;
+export default SearchInput;
 
-Search.proptype = {
+SearchInput.proptype = {
     value: PropTypes.string.isRequired,
     onChange: PropTypes.func.isRequired,
     children: PropTypes.node,

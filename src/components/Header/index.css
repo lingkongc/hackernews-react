@@ -1,0 +1,23 @@
+.nav{
+    margin: auto;
+}
+
+.nav a{
+    display: inline-block;
+    width: 50%;
+    font-size: 1.5em;
+    line-height: 2; 
+    color: #eeeeee;
+    text-align: center;
+    background: #447788;
+    text-decoration: none;
+}
+
+.nav a:hover{
+    color: #ffffff;
+}
+
+.nav .active{
+    background: #336677;
+    color: #ffffff;
+}
