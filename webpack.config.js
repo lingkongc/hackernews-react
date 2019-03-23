@@ -1,6 +1,6 @@
 const path = require('path');
-// const HtmlWebpackPlugin = require('html-webpack-plugin');
-// const CleanWebpackPlugin = require('clean-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 const webpack = require('webpack');
 
 module.exports = {
@@ -39,14 +39,27 @@ module.exports = {
                 test: /\.css$/,
                 use: [
                     'style-loader',
-                    'css-loader'
+                    {
+                        loader:'css-loader',
+                        options: {
+                            importLoaders:2
+                        }
+                    },
+                    'sass-loader',
+                    'postcss-loader'
                 ]
             },
             {
                 test: /\.(png|svg|jpg|gif)$/,
-                use: [
-                    'file-loader'
-                ]
+                use: {
+                    loader: 'file-loader',
+                    options: {
+                        // placehoder 占位符
+                        name: '[name].[ext]', 
+                        // 打包到dist下文件夹
+                        outputPath: 'images/'
+                    }
+                }
             },
             {
                 test: /\.(woff|woff2|eot|ttf|otf)$/,
@@ -57,10 +70,10 @@ module.exports = {
         ]
     },
     plugins: [
-        // new CleanWebpackPlugin(['dist']),
-        // new HtmlWebpackPlugin({
-            // title: '热模块替换'
-        // }),
+        new HtmlWebpackPlugin({
+            template:'./public/index.html'
+        }),
+        new CleanWebpackPlugin(['dist']),
         new webpack.HotModuleReplacementPlugin()
     ]
 }
