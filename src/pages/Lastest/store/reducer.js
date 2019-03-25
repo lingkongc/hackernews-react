@@ -3,7 +3,7 @@ import {
     INPUT_SUBMIT
 } from './actionTypes';
 
-const reducer=(action,state)=>{
+const reducer=(action,state={})=>{
     switch(action.type){
         case INPUT_CHNAGE:
         case INPUT_SUBMIT:
@@ -11,7 +11,5 @@ const reducer=(action,state)=>{
         return state
     }
 }
-
-
 
 export default reducer;

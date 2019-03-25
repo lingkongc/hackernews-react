@@ -18,10 +18,6 @@ import {
 const DEFAULT_QUERY = 'redux';
 const DEFAULT_HPP = '50';
 
-
-// const url = `${PATH_BASE}${PATH_SEARCH}?${PARAM_SEARCH}${DEFAULT_QUERY}&${PARAM_PAGE}`
-
-
 // 这是一个高阶组件
 // setState() 可以接收一个函数，这个函数接受两个参数，第一个参数表示上一个状态值（prevState），第二参数表示当前的 props
 // 这个函数返回一个新函数，作为setState的参数传入
@@ -89,12 +85,6 @@ class Search extends Component {
 
     fetchSearchTopStories(searchTerm, page = 0) {
         this.setState({isLoading: true});
-
-        // fetch(`${PATH_BASE}${PATH_SEARCH}?${PARAM_SEARCH}${searchTerm}&${PARAM_PAGE}${page}&${PARAM_HPP}${DEFAULT_HPP}`)
-        //     .then(response => response.json())
-        //     .then(result => this.setSearchTopStories(result))
-        //     .catch(e => this.setState({error: e}));
-
         axios.get(`${PATH_BASE}${PATH_SEARCH}?${PARAM_SEARCH}${searchTerm}&${PARAM_PAGE}${page}&${PARAM_HPP}${DEFAULT_HPP}`)
             .then(response => response.data)
             .then(result => this.setSearchTopStories(result))
@@ -172,13 +162,9 @@ class Search extends Component {
         return (
             <div className="page">
                 <div className="interactions">
-                    <SearchInput
-                        value={searchTerm}
-                        onChange={this.onSearchChange}
-                        onSubmit={this.onSearchSubmit}
-                    >Search</SearchInput>
+                    <SearchInput>Search</SearchInput>
                 </div>
-                {
+                {/* {
                     error
                         ? <div className="interactions">
                             <p>Something went wrong.</p>
@@ -190,27 +176,16 @@ class Search extends Component {
                 }
 
                 <div className="interactions">
-                    {/*{*/}
-                    {/*isLoading*/}
-                    {/*? <Loading/>*/}
-                    {/*: <Button onClick={() => this.fetchSearchTopStories(searchKey, page + 1)}>*/}
-                    {/*More*/}
-                    {/*</Button>*/}
-                    {/*}*/}
-
                     <ButtonWithLoading
                         isLoading={isLoading}
                         onClick={() => this.fetchSearchTopStories(searchKey, page + 1)}>
                         more
                     </ButtonWithLoading>
-                </div>
+                </div> */}
             </div>
         );
     }
 }
 
-const mapStateToProps = (state) => ({});
-const mapDispatchToProps = (dispatch) => ({});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Search);
+export default Search;
 

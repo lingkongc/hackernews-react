@@ -1,10 +1,7 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
-// 函数式 无状态组件
-// 没有生命周期方法
-// 传入props 可以直接在函数签名中防伪props。返回一个jsx
-// 初次之外利用箭头函数还可以进一步简写
+import { connect } from 'react-redux';
+import { doChangeSearch, doSubmitSearch } from '../../store/actionCreators';
 
 class SearchInput extends Component {
     // 声明周期 组件加载完毕后触发 获取焦点
@@ -42,12 +39,16 @@ class SearchInput extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    value: state.searchKey
+    value: state.searchTerm
 });
+
 const mapDispatchToProps = (dispatch) => ({
-    onChange: dispatch(),
-    onSubmit: dispatch(),
+    onChange: (event) => {
+        dispatch(doChangeSearch(event.target.value));
+    },
+    onSubmit: dispatch(doSubmitSearch(event))
 });
+
 export default connect(mapStateToProps, mapDispatchToProps)(SearchInput);
 
 SearchInput.proptype = {

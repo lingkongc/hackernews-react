@@ -1,5 +1,10 @@
-import searchReducer from './reducer';
+import reducer from './reducer';
+import * as actionCreators from './actionCreators';
+import * as actionTypes from './actionTypes';
 
 
-
-export default searchReducer;
+export {
+    reducer,
+    actionTypes,
+    actionCreators
+}
