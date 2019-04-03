@@ -22,4 +22,6 @@ yarn-debug.log*
 yarn-error.log*
 
 # webstrom
-.idea
+/.idea
+
+package-lock.json

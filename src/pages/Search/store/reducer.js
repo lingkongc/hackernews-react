@@ -1,66 +1,78 @@
 import {
     SEARCH_CHANGE,
-    SEARCH_SUBMIT,
-    LIST_ADD,
-    LIST_SORT,
-    IS_LOADING,
-    REQUEST_STORIES,
-    REQUEST_RECEIVE
+    SET_SEARCHKEY,
+    POSTS_REQUEST,
+    POSTS_RECEIVE,
+    POSTS_FAILURE, STORY_DISMISS
 } from './actionTypes';
 
-const reducer = (state, action) => {
+import {DEFAULT_QUERY} from '../../../constants/API';
+
+const defaultState = {
+    results: {},
+    searchKey: '',
+    searchTerm: DEFAULT_QUERY,
+    error: null,
+    isLoading: false
+};
+
+const reducer = (state = defaultState, action) => {
     switch (action.type) {
         // 搜索框内容改变
         case SEARCH_CHANGE:
-            applyChangeSearch(state, action);
-            // 提交搜索
-        case SEARCH_SUBMIT:
-            applySubmitSearch(state)
-            // 数据是否加载中 
-        case IS_LOADING:
-            appleyIsLoading(state, action);
-            // 接收到数据
-        case REQUEST_STORIES:
-            applyReceiveRequest(state, action);
-            // 列表排序
-        case LIST_SORT:
-            // 加载新数据 
-        case LIST_ADD:
+            return applySearchChange(state, action);
+        // 设置searchKey
+        case SET_SEARCHKEY:
+            return applySetSearchKey(state, action);
+        // 发送请求
+        case POSTS_REQUEST:
+            return applyPostsRequest(state, action);
+        // 接收请求
+        case POSTS_RECEIVE:
+            return applyPostsReceive(state, action);
+        case POSTS_FAILURE:
+            return applyPostsFailure(state, action);
+        case STORY_DISMISS:
+            return applyStroyDismiss(state, action);
         default:
             return state;
     }
-}
+};
 
-
-function applyChangeSearch(state, action) {
+function applyPostsFailure(state, action) {
     return {
         ...state,
-        searchItem: action.searchTerm
-    };
+        error: action.error
+    }
 }
 
-function appleyIsLoading(state, action) {
+function applySearchChange(state, action) {
+    return {
+        ...state,
+        searchTerm: action.searchTerm
+    }
+}
+
+function applyPostsRequest(state, action) {
     return {
         ...state,
         isLoding: action.isLoding
     }
 }
 
-function applySubmitSearch(state) {
+function applySetSearchKey(state, action) {
     return {
         ...state,
-        searchKey: state.searchTerm
+        searchKey: action.searchKey
     }
 }
 
-function applyReceiveRequest(state, action) {
-    const {
-        hits,
-        page
-    } = action.data;
-    return updateSearchTopStoriesState(htis, page, state)
+function applyPostsReceive(state, action) {
+    const newState = updateSearchTopStoriesState(action.data.hits, action.data.page, state);
+    return newState;
 }
 
+// 缓存数据
 function updateSearchTopStoriesState(hits, page, prevState) {
     const {
         searchKey,
@@ -68,9 +80,8 @@ function updateSearchTopStoriesState(hits, page, prevState) {
     } = prevState;
 
     const oldHits = results && results[searchKey] ?
-        results[searchKey].hits // 存在的话
-        :
-        [];
+        results[searchKey].hits
+        : [];
 
     // 将过去的项目和新的项目合并到新的数组
     const updatedHits = [
@@ -80,7 +91,7 @@ function updateSearchTopStoriesState(hits, page, prevState) {
 
     // 返回更新后的state对象
     return {
-        // 将新的搜索合并到results，如果存在该对象，则覆盖
+        ...prevState,
         results: {
             ...results,
             [searchKey]: {
@@ -89,6 +100,24 @@ function updateSearchTopStoriesState(hits, page, prevState) {
             }
         },
         isLoading: false
+    }
+}
+
+function applyStroyDismiss(state, action) {
+    const {searchKey, results} = this.state;
+    const {hits, page} = results[searchKey];
+
+    // 结果为false
+    const isNotId = item => item.objectID !== action.id;
+    // filter函数遍历数字，传入函数，如果判断是true则保留, 最后返回结果数组，并不会改变原数组
+    const updatedHits = hits.filter(isNotId);
+
+    return {
+        ...state,
+        results: {
+            ...results,
+            [searchKey]: {hits: updatedHits, page}
+        }
     }
 }
 

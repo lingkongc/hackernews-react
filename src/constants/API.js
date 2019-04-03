@@ -7,6 +7,9 @@ export const PARAM_TAG = 'tag=';   //数据类型
 export const PARAM_MUMERICFILTERS = 'numericFilters='  // 对pont 等数据大小进行过滤
 export const PARAM_HPP = 'hitsPerPage=';    // 每页的数据的数量
 
+export const DEFAULT_HPP = 20;
+export const DEFAULT_QUERY = 'redux';
+
 // const url = `${PATH_BASE}${PATH_SEARCH}?${PARAM_SEARCH}${DEFAULT_QUERY}&${PARAM_PAGE}`;
 
 // Examples

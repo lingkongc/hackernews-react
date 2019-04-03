@@ -1,75 +1,73 @@
 import {
     SEARCH_CHANGE,
-    LIST_ADD,
-    LIST_LOAD,
-    LIST_SORT
+    POSTS_REQUEST,
+    POSTS_FAILURE,
+    POSTS_RECEIVE,
+    SET_SEARCHKEY,
+    STORY_DISMISS,
 } from './actionTypes';
+
+import axios from 'axios';
 
 import {
     PATH_BASE,
     PATH_SEARCH,
     PARAM_SEARCH,
     PARAM_PAGE,
-    PARAM_HPP
-} from "../../constants/API";
+    PARAM_HPP,
+    DEFAULT_HPP
+} from "../../../constants/API";
 
 export const doChangeSearch = (searchTerm) => ({
     type: SEARCH_CHANGE,
     searchTerm
 });
 
-export const doAddList = () => ({
-    type: LIST_ADD,
+const doReceivePosts = (data) => ({
+    type: POSTS_RECEIVE,
+    data,
 });
-
-export const doLoadList = () => ({
-    type: LIST_LOAD
-});
-
-export const doSortList = () => ({
-    type: LIST_SORT
-});
-
-export const doLoading = (isLoading) => ({
-    type: IS_LOADING,
-    isLoading
-})
-
-
-const doRequestReceive = (data) => ({
-    type: REQUEST_RECEIVE,
-    data
-})
 
 const doError = (e) => ({
-    erroe: e
-})
+    type: POSTS_FAILURE,
+    error: e
+});
 
-const doSearchKeySet = (searchTerm) => ({
-    type: SET_SEARCHTERM,
-    searchTerm
-})
+const doSearchKeySet = (searchKey) => ({
+    type: SET_SEARCHKEY,
+    searchKey
+});
 
-export const doRequestSearchStories = (searchTerm, page = 0) => (dispatch, getState) => {
+const doPostsRequest = () => ({
+    type: POSTS_REQUEST,
+    isLoading: true
+});
+
+export const postsRequest = (page = 0) => (dispatch, getState) => {
     // 派发加载
-    dispatch(doLoading(getState().isLoading));
-    axios.get(`${PATH_BASE}${PATH_SEARCH}?${PARAM_SEARCH}${searchTerm}&${PARAM_PAGE}${page}&${PARAM_HPP}${DEFAULT_HPP}`)
+    dispatch(doSearchKeySet(getState().search.searchTerm)); // 将searchKey 设置为 searchTerm
+    dispatch(doPostsRequest());
+    axios.get(`${PATH_BASE}${PATH_SEARCH}?${PARAM_SEARCH}${getState().search.searchTerm}&${PARAM_PAGE}${page}&${PARAM_HPP}${DEFAULT_HPP}`)
         .then(response => response.data)
-        .then(result => dispatch(doRequestReceive(result)))
+        .then(result => dispatch(doReceivePosts(result)))
         .catch(e => dispatch(doError(e)));
-}
+};
 
 
-export const doSubmitSearch = (event) => (dispatch, getState) => {
+export const doSubmit = (event) => (dispatch, getState) => {
     const {
         searchTerm,
         results
-    } = getState();
-    dispatch(doSearchKeySet(searchTerm)); // 将searchKey 设置为 searchTerm
+    } = getState().search;
     // 判断是否存在缓存
     if (!results[searchTerm]) {
         // 派发action发送ajax请求
-        dispatch(doRequestSearchStories(searchTerm, page = 0));
+        dispatch(postsRequest());
     }
-    event.preventDefault(event);
-}
+    event.preventDefault();
+};
+
+export const doStoryDismiss = (id) => ({
+    type: STORY_DISMISS,
+    id
+});
