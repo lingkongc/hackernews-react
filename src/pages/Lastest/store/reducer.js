@@ -1,14 +1,16 @@
 import {
-    INPUT_CHNAGE,
     INPUT_SUBMIT
 } from './actionTypes';
 
-const reducer=(action,state={})=>{
-    switch(action.type){
-        case INPUT_CHNAGE:
+const defaultState = {
+    test: '我疯了'
+}
+
+const reducer = (state = defaultState, action) => {
+    switch (action.type) {
         case INPUT_SUBMIT:
         default:
-        return state
+            return state
     }
 }
 

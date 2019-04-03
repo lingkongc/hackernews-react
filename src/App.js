@@ -15,7 +15,7 @@ const App = () => (
             <Route exact path="/" component={Search}/>
             <Route path="/lastest" component={Lastest}/>
         </Router>
-    // </Provider>
+    </Provider>
 )
 
 export default App;

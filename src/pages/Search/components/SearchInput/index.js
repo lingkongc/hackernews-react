@@ -1,10 +1,12 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { doChangeSearch, doSubmitSearch } from '../../store/actionCreators';
+import React, {Component} from 'react';
+import {connect} from 'react-redux';
+import {doChangeSearch, doSubmit} from '../../store/actionCreators';
 
 class SearchInput extends Component {
-    // 声明周期 组件加载完毕后触发 获取焦点
+    constructor(props) {
+        super(props);
+    }
+
     componentDidMount() {
         // 这里的this.input绑定的应该是input元素
         if (this.input) {
@@ -25,7 +27,7 @@ class SearchInput extends Component {
                 <input
                     type="text"
                     value={value}
-                    onChange={onChange}
+                    onChange={(event) => onChange(event)}
                     ref={(node) => {
                         this.input = node;
                     }}
@@ -38,22 +40,22 @@ class SearchInput extends Component {
     }
 }
 
+
+const getValue = state => {
+    return state.search.searchTerm
+}
+
 const mapStateToProps = (state) => ({
-    value: state.searchTerm
+    value: getValue(state)
 });
 
 const mapDispatchToProps = (dispatch) => ({
     onChange: (event) => {
         dispatch(doChangeSearch(event.target.value));
     },
-    onSubmit: dispatch(doSubmitSearch(event))
+    onSubmit: (event) => {
+        dispatch(doSubmit(event));
+    }
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchInput);
-
-SearchInput.proptype = {
-    value: PropTypes.string.isRequired,
-    onChange: PropTypes.func.isRequired,
-    children: PropTypes.node,
-    onSubmit: PropTypes.func.isRequired,
-}
