@@ -9,7 +9,7 @@ ReactDOM.render(
 );
 
 // ReactDom.render()可以多次调用
-// 模块热替换 HMR
+// 模块热替换 HMR 理论上都要写，但是有些库已经默认写了这个方法
 if (module.hot) {
     module.hot.accept();
 }

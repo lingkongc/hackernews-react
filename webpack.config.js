@@ -1,6 +1,7 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CleanWebpackPlugin = require("clean-webpack-plugin");
+const webpack = require("webpack");
 
 module.exports = {
   mode: "development",
@@ -8,11 +9,12 @@ module.exports = {
     contentBase: "./dist",
     open: true,
     port: 3000,
+    hot: true,
+    hotOnly: true
     // 跨域代理
     // proxy:{
-    //     './api':'http://localhost:3000'
+    //     '/api':'http://localhost:3000'
     // },
-    hot: true
   },
   devtool: "cheap-module-eval-source-map",
   entry: {
@@ -36,9 +38,13 @@ module.exports = {
               [
                 "@babel/preset-env",
                 {
+                  // 更具浏览器版本来编译js
                   targets: {
                     browsers: [">1%", "not ie<=8"]
-                  }
+                  },
+                  // 根据代码来打包polyfill，减少代码冗余
+                  useBuiltIns: "usage",
+                  corejs: "^3.0.1"
                 }
               ],
               ["@babel/preset-react"]
@@ -82,6 +88,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: "./public/index.html"
     }),
-    new CleanWebpackPlugin()
+    new CleanWebpackPlugin(),
+    new webpack.HotModuleReplacementPlugin()
   ]
 };
