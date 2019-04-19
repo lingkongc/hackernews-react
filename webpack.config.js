@@ -33,23 +33,23 @@ module.exports = {
                 exclude: /(node_modules|bower_components)/,
                 use: {
                     loader: "babel-loader",
-                    options: {
-                        presets: [
-                            [
-                                "@babel/preset-env",
-                                {
-                                    // 更具浏览器版本来编译js
-                                    targets: {
-                                        browsers: [">1%", "not ie<=8"]
-                                    },
-                                    // 根据代码来打包polyfill，减少代码冗余
-                                    useBuiltIns: "usage",
-                                    corejs: "^3.0.1"
-                                }
-                            ],
-                            ["@babel/preset-react"]
-                        ]
-                    }
+                    // options: {
+                    //     presets: [ 
+                    //         [
+                    //             "@babel/preset-env",
+                    //             {
+                    //                 // 更具浏览器版本来编译js
+                    //                 targets: {
+                    //                     browsers: [">1%", "not ie<=8"]
+                    //                 },
+                    //                 // 根据代码来打包polyfill，减少代码冗余
+                    //                 useBuiltIns: "usage",
+                    //                 corejs: "^3.0.1"
+                    //             }
+                    //         ],
+                    //         ["@babel/preset-react"]
+                    //     ]
+                    // }
                 }
             },
             {
@@ -69,12 +69,13 @@ module.exports = {
             {
                 test: /\.(png|svg|jpg|gif)$/,
                 use: {
-                    loader: "file-loader",
+                    loader: "url-loader",
                     options: {
                         // placehoder 占位符
-                        name: "[name].[ext]",
+                        name: "[name]_[hash].[ext]",
                         // 打包到dist下文件夹
-                        outputPath: "images/"
+                        outputPath: "images/", 
+                        limit: 10240  // 字节 
                     }
                 }
             },
@@ -87,7 +88,7 @@ module.exports = {
     plugins: [
         new HtmlWebpackPlugin({
             template: "./public/index.html",
-            favicon: "./publick/favicon.ico"
+            favicon: "./public/favicon.ico"
         }),
         new CleanWebpackPlugin(),
         new webpack.HotModuleReplacementPlugin()
