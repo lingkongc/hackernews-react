@@ -1,6 +1,6 @@
 import React from 'react';
 
-const StoriesHeader = ({ columns }) =>
+const Index = ({ columns }) =>
     <div className="stories-header">
         {Object.keys(columns).map(key =>
             <span
@@ -12,4 +12,4 @@ const StoriesHeader = ({ columns }) =>
         )}
     </div>
 
-export default StoriesHeader;
+export default Index;

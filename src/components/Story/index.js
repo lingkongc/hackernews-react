@@ -1,4 +1,5 @@
 import React from 'react';
+import './index.css';
 
 const Story = ({story}) => {
     const {
@@ -9,13 +10,13 @@ const Story = ({story}) => {
         points
     } = story;
     return (
-        <div className="stroy">
-            <span>
+        <div className="story">
+            <span className="story-title">
                 <a href={url}>{title}</a>
             </span>
-            <span>{author}</span>
-            <span>{num_comments}</span>
-            <span>{points}</span>
+            <span className="story-author">{author}</span>
+            <span className="story-comments">{num_comments}</span>
+            <span className="story-points">{points}</span>
         </div>
     );
 }
